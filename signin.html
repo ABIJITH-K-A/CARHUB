@@ -1,0 +1,85 @@
+ <?php    //server scripting language (used on the server side)
+ $registered=0; //variable to check success or failure
+ $userexsists=0;
+ if($_SERVER['REQUEST_METHOD']=='POST'){  //using request method and to perform post operation
+  include 'server.php'; //uses the include statement to include all the files
+  $name=$_POST['name'];
+  $dob=$_POST['dob'];
+  $mail=$_POST['mail'];
+  $password=$_POST['password'];
+  $sql="SELECT * FROM signin WHERE name='$name'";
+  $result=mysqli_query($con,$sql);
+  if($result){
+    $num=mysqli_num_rows($result); //It is generally used to check if data is present in the database or s
+    if($num>0){
+     echo "User already exist";
+     $userexsists=1;
+    }else{
+      $sql="INSERT INTO signin (name,dob,mail,password) VALUES ('$name','$dob','$mail','$password')";
+      $result=mysqli_query($con,$sql);
+      if($result){
+       //echo "Registered successfully";
+        $registered=1;
+    }else{
+        die(mysqli_error($con));
+    }
+    }
+  }
+ }
+ ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="signin.css" rel="stylesheet">
+<script>
+ function formValidation() {
+  let x = document.forms["form2"]["name"].value;
+  if (x == "") {  //if the field is empty
+    alert("Name must be filled out");
+    return false;
+  }
+}
+ function newFunction(){
+  document.getElementById("form2").reset(); // used to access the id
+ }
+</script>
+</head>
+<body>
+   <?php
+ if($userexsists){
+  echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Error</strong> User already exist.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+ </div>';
+ }
+?>
+ <?php
+ if($registered){
+  echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Congrats</strong> Sigin successfull
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+ </div>';
+ }
+?>
+    <header><h2>SIGN IN</h2></header>
+<form name="form2"method="POST"><h2>
+  <label for="name">USERNAME:</label><br>
+  <input type="text" id="name" name="name"><br>
+  <label for="dob">DATE OF BIRTH:</label><br>
+  <input type="date" id="dob" name="dob"><br>
+  <label for="mail">MAIL:</label><br>
+  <input type="email" id="mail" name="mail"><br>
+  <label for="password">PASSWORD:</label><br>
+  <input type="password" id="password" name="password"><br>
+  </h2>
+     <button type="submit" class="btn btn-primary"><h3>SUBMIT</h3></button>
+
+<button><h3>RESET</h3></button></center>
+</form>
+<center><img src="car logo.jpg" height="400" width="400"></center>
+
+</body>
+</html>

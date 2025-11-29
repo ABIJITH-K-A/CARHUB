@@ -1,0 +1,15 @@
+form{
+    background-color: black;
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: aliceblue;
+}
+button{
+    background-color: black;
+    color: antiquewhite;
+}
+header{
+    background-color: rgb(239, 8, 8);
+    text-align: center;
+    color: bisque;
+}

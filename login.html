@@ -1,0 +1,75 @@
+ <?php
+ $logged=0;
+ $invalid=0;
+ if($_SERVER['REQUEST_METHOD']=='POST'){
+  include 'server.php';
+  $mail=$_POST['mail'];
+  $password=$_POST['password'];
+  $sql="SELECT * FROM signin WHERE mail='$mail' 
+  AND password='$password'";  
+  $result=mysqli_query($con,$sql);
+  if($result){
+    $num=mysqli_num_rows($result);
+    if($num>0){
+      //echo "Login Successful";
+      $logged=1;
+
+    }
+    else{
+        //echo "Invalid Data";
+        $invalid=1;
+    } 
+  }
+ } 
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <link href="login.css" rel="stylesheet">
+      <script>
+ function formValidation() {
+  let x = document.forms["form1"]["mail"].value;
+  if (x == "") {
+    alert("Fill in the details");
+    return false;
+  }
+ }
+ function newFunction(){
+  document.getElementById("Form1").reset();
+}
+ </script>
+</head>
+<body>
+   <?php
+ if($invalid){
+  echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Error</strong> Invalid Credentials.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+ </div>';
+ }
+  ?>
+ <?php
+ if($logged){
+  echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Congrats</strong> You are successfully Logged In.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+ </div>';
+ }
+  ?>
+<header><h1>LOGIN</h1></header>
+  <form action="login.php" method='POST'>
+  <h2>
+  <label for="mail">ENTER GMAIL:</label><br>
+  <input type="email" id="mail" name="mail"><br>
+  <label for="password">ENTER PASSWORD:</label><br>
+  <input type="password" id="password" name="password"><br>
+   <input type="submit" class="btn btn-primary"><h3>LOGIN</h3></button>
+  </h2>
+</form> 
+<br><br>
+<center><img src="car logo.jpg" height="400" width="400"></center>
+</body>
+</html>
